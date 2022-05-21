@@ -136,6 +136,27 @@ endfunc
 func s:EndTermDebug(chan, exited)
   call s:CloseBuffers()
   unlet! s:dlvwin
+
+  " Restore 'signcolumn' in all buffers for which it was set.
+  call win_gotoid(s:sourcewin)
+  let was_buf = bufnr()
+  for bufnr in s:signcolumn_buflist
+    if bufexists(bufnr)
+      exe bufnr .. "buf"
+      if exists('b:save_signcolumn')
+        let &signcolumn = b:save_signcolumn
+        unlet b:save_signcolumn
+      endif
+    endif
+  endfor
+  exe was_buf .. "buf"
+
+  exe 'sign unplace ' . s:pc_id
+  for [id, entry] in items(s:breakpoints)
+    exe 'sign unplace ' . s:Breakpoint2SignNumber(id, 0)
+  endfor
+  unlet s:breakpoints
+  unlet s:breakpoint_locations
 endfunc
 
 func s:CloseBuffers()
@@ -232,6 +253,8 @@ func s:HandleClearBreakpoint(msg)
 
     if has_key(s:breakpoints, id)
       exe 'sign unplace ' . s:Breakpoint2SignNumber(id, 0)
+      let entry = s:breakpoints[id]
+      unlet entry['placed']
       unlet s:breakpoints[id]
     endif
   endfor
@@ -248,6 +271,7 @@ func s:HandleNext(msg)
     let msg = json_decode(msg)
 
     if msg['State']['exited']
+      exe 'sign unplace ' . s:pc_id
       return
     endif
 
@@ -345,6 +369,7 @@ endfunction
 func s:PlaceSign(id, subid, entry)
   let nr = printf("%d.%d", a:id, a:subid)
   exe 'sign place ' . s:Breakpoint2SignNumber(a:id, a:subid) . ' line=' . a:entry['line'] . ' name=debugBreakpoint' . nr . ' priority=110 file=' . a:entry['fname']
+  let a:entry['placed'] = 1
 endfunc
 
 func s:BufRead()
