@@ -1,0 +1,5 @@
+.vim-flavor
+Gemfile.lock
+VimFlavor.lock
+__debug_bin
+.gdb_history

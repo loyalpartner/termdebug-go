@@ -5,41 +5,122 @@ endif
 
 command -nargs=* -complete=file -bang TermdebugGo call s:StartDebug(<bang>0, <f-args>)
 
+if !exists('g:termdebugger_go')
+  let g:termdebugger_go = 'dlv'
+endif
+
+function s:GetCommand() 
+  return [g:termdebugger_go]
+endfunction
+
 func s:StartDebug(bang, ...)
   " First argument is the command to debug, second core file or process ID.
-  call s:StartDebug_internal({'gdb_args': a:000, 'bang': a:bang})
+  call s:StartDebug_internal({'dlv_args': ['debug'] + a:000, 'bang': a:bang})
 endfunc
 
 func s:StartDebug_internal(dict)
-  let s:vertical = 0
+  if exists('s:dlvwin')
+    echoerr 'Terminal debugger already running, cannot run two'
+    return
+  endif
+
+  let dlvcmd = s:GetCommand()
+  if !executable(dlvcmd[0])
+    echoerr 'Cannot execute debugger program "' .. dlvcmd[0] .. '"'
+    return
+  endif
+
+  let s:rpcwin = 0
+
+  " if exists('#User#TermdebugGoStartPre')
+  "   doauto <nomodeline> User TermdebugStartPre
+  " endif
+
   let s:sourcewin = win_getid(winnr())
 
+  " Remember the old value of 'signcolumn' for each buffer that it's set in, so
+  " that we can restore the value for all buffers.
+  let b:save_signcolumn = &signcolumn
+  let s:signcolumn_buflist = [bufnr()]
+
+  " let s:save_columns = 0
+  let s:vertical = 0
+
+  call s:StartDebug_term(a:dict)
+endfunc
+
+func s:CheckRunning()
+  let dlvproc = term_getjob(s:dlvbuf)
+  if dlvproc == v:null || job_status(dlvproc) !=# 'run'
+    echoerr string(s:GetCommand()[0]) . ' exited unexpectedly'
+    call s:CloseBuffers()
+    return ''
+  endif
+  return 'ok'
+endfunc
+
+func s:StartDebug_term(dict)
   let s:rpcbuf = term_start('NONE', {
-	\ 'term_name': 'debugged program',
+	\ 'term_name': 'json rpc log',
 	\ 'out_cb': function('s:JsonRpcOutput'),
 	\ 'vertical': s:vertical,
 	\ })
   if s:rpcbuf == 0
     echoerr 'Failed to open the program terminal window'
+    exec 'bwipe! ' . s:rpcbuf
     return
   endif
+
   let rpc = job_info(term_getjob(s:rpcbuf))['tty_out']
   let s:rpcwin = win_getid(winnr())
 
-  let dlv_cmd = 'dlv debug --log  --log-dest ' . rpc . ' --log-output rpc  ./main.go'
+  let dlv_args = get(a:dict, 'dlv_args', [])
+  " let proc_args = get(a:dict, 'proc_args', [])
+
+  " dlv debug --log  --log-dest /dev/pts/13 --log-output rpc  ./main.go
+  let dlv_cmd = s:GetCommand()
+  let dlv_cmd += dlv_args[0:1]
+  let dlv_cmd += ['--log', '--log-output', 'rpc']
+  let dlv_cmd += ['--log-dest', rpc]
+  
+  let dlv_cmd += len(dlv_args[1:]) == 0 ?  ['./main.go'] : dlv_args[1:]
+
+  echom join(dlv_cmd, " ")
+
   " Open a terminal window without a job, to run the debugged program in.
-  let s:dlvbuf = term_start(dlv_cmd, {
-	\ 'term_name': 'debugged program',
-	\ 'vertical': s:vertical,
-  \ 'exit_cb': function('s:DlvWinExit'),
+  let s:dlvbuf = term_start(join(dlv_cmd, ' '), {
+	\ 'term_name': 'delve debugger',
   \ 'term_finish': 'close',
 	\ })
   if s:dlvbuf == 0
     echoerr 'Failed to open the program terminal window'
+    call s:CloseBuffers()
     return
   endif
-  let dlv = job_info(term_getjob(s:dlvbuf))['tty_out']
   let s:dlvwin = win_getid(winnr())
+
+  let try_count = 0
+  while 1
+    if s:CheckRunning() != 'ok'
+      return
+    endif
+
+    for lnum in range(1, 200)
+      if term_getline(s:dlvbuf, lnum) =~ 'list of commands'
+        let try_count = 9999
+        break
+      endif
+    endfor
+
+    let try_count += 1
+    if try_count > 300
+      " done or give up after five seconds
+      break
+    endif
+    sleep 10m
+  endwhile
+
+  call job_setoptions(term_getjob(s:dlvbuf), {'exit_cb': function('s:EndTermDebug')})
 
   let s:breakpoints = {}
   let s:breakpoint_locations = {}
@@ -47,13 +128,17 @@ func s:StartDebug_internal(dict)
   sign define debugPC linehl=debugPC
   augroup TermDebugGo
     au BufRead * call s:BufRead()
-    " au BufUnload * call s:BufUnloaded()
+    au BufUnload * call s:BufUnloaded()
     " au OptionSet background call s:Highlight(0, v:option_old, v:option_new)
   augroup END
 endfunc
 
-func s:DlvWinExit(chan, exited)
-  echomsg a:exited
+func s:EndTermDebug(chan, exited)
+  call s:CloseBuffers()
+  unlet! s:dlvwin
+endfunc
+
+func s:CloseBuffers()
   exec 'bwipe! ' . s:rpcbuf
 endfunc
 
@@ -71,8 +156,8 @@ func s:JsonRpcOutput(chan, msg)
       call s:HandleClearBreakpoint(msg)
     elseif msg =~ 'rpc2.CommandOut'
       call s:HandleNext(msg)
-    " elseif msg =~ 'rpc2.DetachOut'
-    "   exec 'bwipe! ' . s:rpcbuf
+    elseif msg =~ 'rpc2.StacktraceOut'
+      call s:HandleStacktraceOut(msg)
     endif
   
   endfor
@@ -166,11 +251,48 @@ func s:HandleNext(msg)
       return
     endif
 
-    let msg = msg['State']['currentGoroutine']['userCurrentLoc']
+    " let msg = msg['State']['currentGoroutine']['userCurrentLoc']
+    let msg = msg['State']['currentGoroutine']['currentLoc']
 
     let fname = msg['file']
     let lnum = msg['line']
-    echomsg msg
+
+    call s:GotoSourcewinOrCreateIt()
+
+    if expand('%:p') != fnamemodify(fname, ':p')
+      exec 'edit ' . fnameescape(fname)
+    endif
+
+    exe lnum
+    normal! zv
+    exe 'sign unplace ' . s:pc_id
+    exe 'sign place ' . s:pc_id . ' line=' . lnum . ' name=debugPC priority=110 file=' . fname
+
+    call win_gotoid(wid)
+  endfor
+endfunc
+
+func s:HandleStacktraceOut(msg)
+  for msg in s:SplitMsg(a:msg)
+    if empty(msg)
+      return
+    endif
+
+    let wid = win_getid(winnr())
+
+    let msg = json_decode(msg)
+
+    echom msg
+    if empty(msg['Locations']) && len(msg['Locations']) <= 0
+      " echoerr "stacktrace array's length less than 1"
+      return
+    endif
+
+    " let msg = msg['State']['currentGoroutine']['userCurrentLoc']
+    let msg = msg['Locations'][-1]
+
+    let fname = msg['file']
+    let lnum = msg['line']
 
     call s:GotoSourcewinOrCreateIt()
 
@@ -230,6 +352,17 @@ func s:BufRead()
   for [id, entry] in items(s:breakpoints)
     if entry['fname'] == fname
       call s:PlaceSign(id, 0, entry)
+    endif
+  endfor
+endfunc
+
+
+" Handle a BufUnloaded autocommand event: unplace any signs.
+func s:BufUnloaded()
+  let fname = expand('<afile>:p')
+  for [id, entry] in items(s:breakpoints)
+    if entry['fname'] == fname
+      let entry['placed'] = 0
     endif
   endfor
 endfunc
