@@ -9,6 +9,9 @@ if !exists('g:termdebugger_go')
   let g:termdebugger_go = 'dlv'
 endif
 
+let s:break_id = 14
+let s:pc_id = 12
+
 function s:GetCommand() 
   return [g:termdebugger_go]
 endfunction
@@ -26,7 +29,7 @@ func s:StartDebug_internal(dict)
 
   let dlvcmd = s:GetCommand()
   if !executable(dlvcmd[0])
-    echoerr 'Cannot execute debugger program "' .. dlvcmd[0] .. '"'
+    echoerr 'Cannot execute debugger program "' . dlvcmd[0] . '"'
     return
   endif
 
@@ -41,7 +44,7 @@ func s:StartDebug_internal(dict)
   " Remember the old value of 'signcolumn' for each buffer that it's set in, so
   " that we can restore the value for all buffers.
   let b:save_signcolumn = &signcolumn
-  let s:signcolumn_buflist = [bufnr()]
+  let s:signcolumn_buflist = [bufnr('%')]
 
   " let s:save_columns = 0
   let s:vertical = 0
@@ -139,21 +142,21 @@ func s:EndTermDebug(chan, exited)
 
   " Restore 'signcolumn' in all buffers for which it was set.
   call win_gotoid(s:sourcewin)
-  let was_buf = bufnr()
+  let was_buf = bufnr('%')
   for bufnr in s:signcolumn_buflist
     if bufexists(bufnr)
-      exe bufnr .. "buf"
+      exec bufnr . "buf"
       if exists('b:save_signcolumn')
         let &signcolumn = b:save_signcolumn
         unlet b:save_signcolumn
       endif
     endif
   endfor
-  exe was_buf .. "buf"
+  exec was_buf . "buf"
 
-  exe 'sign unplace ' . s:pc_id
+  exec 'sign unplace ' . s:pc_id
   for [id, entry] in items(s:breakpoints)
-    exe 'sign unplace ' . s:Breakpoint2SignNumber(id, 0)
+    exec 'sign unplace ' . s:Breakpoint2SignNumber(id, 0)
   endfor
   unlet s:breakpoints
   unlet s:breakpoint_locations
@@ -195,10 +198,11 @@ func s:CreateBreakpoint(id, subid, enabled)
     else
       let hiName = "debugBreakpoint"
     endif
-    call sign_define('debugBreakpoint'.nr, {
-      \ 'text': substitute(nr, '\..*', '', ''),
-      \ 'texthl': hiName,
-      \ })
+    exec "sign define debugBreakpoint" . nr 
+          \ . " text="
+          \ . substitute(nr, '\..*', '', '')
+          \ . " texthl=" . hiName
+
   endif
 endfunc
 
@@ -252,7 +256,7 @@ func s:HandleClearBreakpoint(msg)
     let id = msg['id']
 
     if has_key(s:breakpoints, id)
-      exe 'sign unplace ' . s:Breakpoint2SignNumber(id, 0)
+      exec 'sign unplace ' . s:Breakpoint2SignNumber(id, 0)
       let entry = s:breakpoints[id]
       unlet entry['placed']
       unlet s:breakpoints[id]
@@ -271,7 +275,7 @@ func s:HandleNext(msg)
     let msg = json_decode(msg)
 
     if msg['State']['exited']
-      exe 'sign unplace ' . s:pc_id
+      exec 'sign unplace ' . s:pc_id
       return
     endif
 
@@ -287,10 +291,10 @@ func s:HandleNext(msg)
       exec 'edit ' . fnameescape(fname)
     endif
 
-    exe lnum
+    exec lnum
     normal! zv
-    exe 'sign unplace ' . s:pc_id
-    exe 'sign place ' . s:pc_id . ' line=' . lnum . ' name=debugPC priority=110 file=' . fname
+    exec 'sign unplace ' . s:pc_id
+    exec 'sign place ' . s:pc_id . ' line=' . lnum . ' name=debugPC priority=110 file=' . fname
 
     call win_gotoid(wid)
   endfor
@@ -324,10 +328,10 @@ func s:HandleStacktraceOut(msg)
       exec 'edit ' . fnameescape(fname)
     endif
 
-    exe lnum
+    exec lnum
     normal! zv
-    exe 'sign unplace ' . s:pc_id
-    exe 'sign place ' . s:pc_id . ' line=' . lnum . ' name=debugPC priority=110 file=' . fname
+    exec 'sign unplace ' . s:pc_id
+    exec 'sign place ' . s:pc_id . ' line=' . lnum . ' name=debugPC priority=110 file=' . fname
 
     call win_gotoid(wid)
   endfor
@@ -345,15 +349,13 @@ func! s:SplitMsg(s)
   return matchlist(a:s, '{.\{}}')
 endfunction
 
-let s:break_id = 14
-let s:pc_id = 12
 
 func s:Highlight(init, old, new)
   let default = a:init ? 'default ' : ''
   if a:new ==# 'light' && a:old !=# 'light'
-    exe "hi " . default . "debugPC term=reverse ctermbg=lightblue guibg=lightblue"
+    exec "hi " . default . "debugPC term=reverse ctermbg=lightblue guibg=lightblue"
   elseif a:new ==# 'dark' && a:old !=# 'dark'
-    exe "hi " . default . "debugPC term=reverse ctermbg=darkblue guibg=darkblue"
+    exec "hi " . default . "debugPC term=reverse ctermbg=darkblue guibg=darkblue"
   endif
 endfunc
 
@@ -368,7 +370,12 @@ endfunction
 
 func s:PlaceSign(id, subid, entry)
   let nr = printf("%d.%d", a:id, a:subid)
-  exe 'sign place ' . s:Breakpoint2SignNumber(a:id, a:subid) . ' line=' . a:entry['line'] . ' name=debugBreakpoint' . nr . ' priority=110 file=' . a:entry['fname']
+  let sn = s:Breakpoint2SignNumber(a:id, a:subid)
+  exec 'sign place ' . sn
+        \ . ' line=' . a:entry['line']
+        \ . ' name=debugBreakpoint' . nr
+        \ . ' priority=110'
+        \ . ' file=' . a:entry['fname']
   let a:entry['placed'] = 1
 endfunc
 

@@ -1,6 +1,8 @@
 termdebug-go
 ============
 
+[![Build Status](https://app.travis-ci.com/loyalpartner/termdebug-go.svg?branch=main)](https://app.travis-ci.com/loyalpartner/termdebug-go)
+
 termdebug for golang
 
 [delve](https://github.com/go-delve/delve) frontend for golang.

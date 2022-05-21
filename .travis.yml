@@ -1,0 +1,21 @@
+language: go
+
+go:
+  - "1.16.x"
+
+before_script: |
+  git clone https://github.com/junegunn/vader.vim.git
+  go install github.com/go-delve/delve/cmd/dlv@latest
+  curl https://raw.githubusercontent.com/kana/vim-version-manager/master/bin/vvm | python - setup; true
+  source ~/.vvm/etc/login
+  vvm update_itself
+  vvm use vimorg--v8.2.0803 --install --with-features=huge
+
+script: |
+  vim -Nu <(cat << VIMRC
+  filetype off
+  set rtp+=vader.vim
+  set rtp+=.
+  filetype plugin indent on
+  syntax enable
+  VIMRC) -c 'Vader! test/*' > /dev/null
