@@ -7,6 +7,8 @@ termdebug for golang
 
 [delve](https://github.com/go-delve/delve) frontend for golang.
 
+![display](./images/display.gif)
+
 
 # TODO:
 - restore state after exit
