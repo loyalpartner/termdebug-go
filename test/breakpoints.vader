@@ -1,22 +1,23 @@
 Before:
   edit ./main.go
-  let g:test_source_buf = bufnr()
+  let g:test_source_buf = bufnr('%')
   " echom 'bufnum'. g:test_source_buf
   TermdebugGo
+  let g:test_dlv_buf = bufnr('%')
 
 After:
-   call term_sendkeys(bufnr(), "clearall")
-   call term_sendkeys(bufnr(), "exit")
+   call term_sendkeys(g:test_dlv_buf, "clearall")
+   call term_sendkeys(g:test_dlv_buf, "exit")
    exec 'bdelete! ' . g:test_source_buf
 
 Execute ("should place a sign when breakpoint added");
-  call term_sendkeys(bufnr(), "b main.main")
+  call term_sendkeys(g:test_dlv_buf, "b main.main")
   exec 'sleep 1'
   let signs = sign_getplaced(bufname(g:test_source_buf))
   AssertEqual len(signs[0]['signs']), 1
 
 Then ('should unplace the specified sign when breakpoint cleared'):
-  call term_sendkeys(bufnr(), "clear 1")
+  call term_sendkeys(g:test_dlv_buf, "clear 1")
   exec 'sleep 1'
   let signs = sign_getplaced(bufname(g:test_source_buf))
   AssertEqual len(signs[0]['signs']), 0
