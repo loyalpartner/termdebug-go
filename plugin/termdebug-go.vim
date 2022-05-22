@@ -98,7 +98,7 @@ func s:StartDebug_term(dict)
 	\ })
   if s:dlvbuf == 0
     echoerr 'Failed to open the program terminal window'
-    call s:CloseBuffers()
+    call s:EndTermDebug()
     return
   endif
   let s:dlvwin = win_getid(winnr())
@@ -110,7 +110,7 @@ func s:StartDebug_term(dict)
     endif
 
     for lnum in range(1, 200)
-      if term_getline(s:dlvbuf, lnum) =~ 'list of commands'
+      if term_getline(s:dlvbuf, lnum) =~ '(dlv)'
         let try_count = 9999
         break
       endif
@@ -167,25 +167,6 @@ endfunc
 
 func s:CloseBuffers()
   exec 'bwipe! ' . s:logbuf
-endfunc
-
-func s:JsonRpcOutput(chan, msg)
-  let msgs = split(a:msg, "\r")
-
-  for msg in msgs
-    if msg[0] == "\n"
-      let msg = msg[1:]
-    endif
-
-    if msg =~ 'rpc2.CreateBreakpointOut'
-      call s:HandleNewBreakpoint(msg, 0)
-    elseif msg =~ 'rpc2.ClearBreakpointOut'
-      call s:HandleClearBreakpoint(msg)
-    " elseif msg =~ 'rpc2.CommandOut'
-    "   call s:HandleNext(msg)
-    endif
-  
-  endfor
 endfunc
 
 let s:BreakpointSigns = []
@@ -255,11 +236,11 @@ func s:DlvMsgOutput(chan,msg)
     let frame = matchlist(a:msg, '\v\>.{-}\(\) (.{-}):(\d+)')
     call s:UpdateCursorPos(frame[1], frame[2])
     return
-  elseif a:msg =~ '\v^Breakpoint (\d+) set at.{-}for.{-}\(\) (.{-}):(\d+)'
-    let item = matchlist(a:msg, '\v^Breakpoint (\d+) set at.{-}for.{-}\(\) (.{-}):(\d+)')
+  elseif a:msg =~ '\vBreakpoint (\d+) set at.{-}for.{-}\(\) (.{-}):(\d+)'
+    let item = matchlist(a:msg, '\vBreakpoint (\d+) set at.{-}for.{-}\(\) (.{-}):(\d+)')
     call s:OnBreakpointAdded(str2nr(item[1]), item[2], item[3])
-  elseif a:msg =~ '\v^Breakpoint (\d+) cleared at'
-    let id = matchlist(a:msg, '\v^Breakpoint (\d+) cleared at')[1]
+  elseif a:msg =~ '\vBreakpoint (\d+) cleared at'
+    let id = matchlist(a:msg, '\vBreakpoint (\d+) cleared at')[1]
     call s:OnBreakpointCleared(str2nr(id))
   elseif a:msg =~ 'has exited with status'
     exec 'sign unplace ' . s:pc_id

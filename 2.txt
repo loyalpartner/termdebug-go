@@ -1,0 +1,278 @@
+2022-05-22T07:42:45+08:00 info layer=rpc Using API v1
+2022-05-22T07:42:45+08:00 debug layer=rpc serving JSON-RPC on new connection
+2022-05-22T07:42:45+08:00 debug layer=rpc <- RPCServer.SetApiVersion(api.SetAPIVersionIn{"APIVersion":2})
+2022-05-22T07:42:45+08:00 debug layer=rpc -> *api.SetAPIVersionOut{} error: ""
+2022-05-22T07:42:45+08:00 debug layer=rpc <- RPCServer.IsMulticlient(rpc2.IsMulticlientIn{})
+2022-05-22T07:42:45+08:00 debug layer=rpc -> *rpc2.IsMulticlientOut{"IsMulticlient":false} error: ""
+2022-05-22T07:42:45+08:00 debug layer=rpc (async 3) <- RPCServer.State(rpc2.StateIn{"NonBlocking":true})
+2022-05-22T07:42:45+08:00 debug layer=rpc (async 3) -> rpc2.StateOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":907169,"pc":4598688,"file":"/usr/lib/go/src/runtime/rt0_linux_amd64.s","line":8,"function":{"name":"_rt0_amd64_linux","value":4598688,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},"Threads":[{"id":907169,"pc":4598688,"file":"/usr/lib/go/src/runtime/rt0_linux_amd64.s","line":8,"function":{"name":"_rt0_amd64_linux","value":4598688,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:42:45+08:00 debug layer=rpc <- RPCServer.Recorded(rpc2.RecordedIn{})
+2022-05-22T07:42:45+08:00 debug layer=rpc -> *rpc2.RecordedOut{"Recorded":false,"TraceDirectory":""} error: ""
+2022-05-22T07:42:45+08:00 debug layer=rpc <- RPCServer.IsMulticlient(rpc2.IsMulticlientIn{})
+2022-05-22T07:42:45+08:00 debug layer=rpc -> *rpc2.IsMulticlientOut{"IsMulticlient":false} error: ""
+2022-05-22T07:42:45+08:00 debug layer=rpc <- RPCServer.ListFunctions(rpc2.ListFunctionsIn{"Filter":""})
+2022-05-22T07:42:45+08:00 debug layer=rpc (async 7) <- RPCServer.State(rpc2.StateIn{"NonBlocking":false})
+2022-05-22T07:42:45+08:00 debug layer=rpc (async 7) -> rpc2.StateOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":907169,"pc":4598688,"file":"/usr/lib/go/src/runtime/rt0_linux_amd64.s","line":8,"function":{"name":"_rt0_amd64_linux","value":4598688,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},"Threads":[{"id":907169,"pc":4598688,"file":"/usr/lib/go/src/runtime/rt0_linux_amd64.s","line":8,"function":{"name":"_rt0_amd64_linux","value":4598688,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:42:50+08:00 debug layer=rpc <- RPCServer.FindLocation(rpc2.FindLocationIn{"Scope":{"GoroutineID":-1,"Frame":0,"DeferredCall":0},"Loc":"main.main","IncludeNonExecutableLines":false,"SubstitutePathRules":null})
+2022-05-22T07:42:50+08:00 debug layer=rpc -> *rpc2.FindLocationOut{"Locations":[{"pc":4810570,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"pcs":[4810570]}]} error: ""
+2022-05-22T07:42:50+08:00 debug layer=rpc <- RPCServer.CreateBreakpoint(rpc2.CreateBreakpointIn{"Breakpoint":{"id":0,"name":"","addr":4810570,"addrs":[4810570],"file":"","line":0,"Cond":"","HitCond":"","continue":false,"traceReturn":false,"goroutine":false,"stacktrace":0,"LoadArgs":null,"LoadLocals":null,"WatchExpr":"","WatchType":0,"hitCount":null,"totalHitCount":0,"disabled":false}})
+2022-05-22T07:42:50+08:00 debug layer=rpc -> *rpc2.CreateBreakpointOut{"Breakpoint":{"id":1,"name":"","addr":4810570,"addrs":[4810570],"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"functionName":"main.main","Cond":"","HitCond":"","continue":false,"traceReturn":false,"goroutine":false,"stacktrace":0,"LoadArgs":null,"LoadLocals":null,"WatchExpr":"","WatchType":0,"hitCount":{},"totalHitCount":0,"disabled":false}} error: ""
+2022-05-22T07:42:53+08:00 debug layer=rpc (async 10) <- RPCServer.Command(api.DebuggerCommand{"name":"continue","ReturnInfoLoadConfig":{"FollowPointers":true,"MaxVariableRecurse":1,"MaxStringLen":64,"MaxArrayValues":64,"MaxStructFields":-1}})
+2022-05-22T07:42:53+08:00 debug layer=rpc (async 10) -> rpc2.CommandOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":907169,"pc":4810570,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"goroutineID":1,"breakPoint":{"id":1,"name":"","addr":4810570,"addrs":[4810570],"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"functionName":"main.main","Cond":"","HitCond":"","continue":false,"traceReturn":false,"goroutine":false,"stacktrace":0,"LoadArgs":null,"LoadLocals":null,"WatchExpr":"","WatchType":0,"hitCount":{"1":1},"totalHitCount":1,"disabled":false},"breakPointInfo":{},"ReturnValues":null,"CallReturn":false},"currentGoroutine":{"id":1,"currentLoc":{"pc":4810570,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false}},"userCurrentLoc":{"pc":4810570,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false}},"goStatementLoc":{"pc":4602533,"file":"\u003cautogenerated\u003e","line":1,"function":{"name":"runtime.newproc","value":4602496,"type":0,"goType":0,"optimized":true}},"startLoc":{"pc":4420064,"file":"/usr/lib/go/src/runtime/proc.go","line":145,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true}},"threadID":907169,"status":2,"waitSince":0,"waitReason":14,"unreadable":""},"Threads":[{"id":907946,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":907169,"pc":4810570,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"goroutineID":1,"breakPoint":{"id":1,"name":"","addr":4810570,"addrs":[4810570],"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"functionName":"main.main","Cond":"","HitCond":"","continue":false,"traceReturn":false,"goroutine":false,"stacktrace":0,"LoadArgs":null,"LoadLocals":null,"WatchExpr":"","WatchType":0,"hitCount":{"1":1},"totalHitCount":1,"disabled":false},"breakPointInfo":{},"ReturnValues":null,"CallReturn":false},{"id":907943,"pc":4599197,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":149,"function":{"name":"runtime.usleep","value":4599136,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":907944,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":907945,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:42:53+08:00 debug layer=rpc <- RPCServer.LastModified(rpc2.LastModifiedIn{})
+2022-05-22T07:42:53+08:00 debug layer=rpc -> *rpc2.LastModifiedOut{"Time":"2022-05-22T07:42:45.143608043+08:00"} error: ""
+2022-05-22T07:43:08+08:00 debug layer=rpc <- RPCServer.FindLocation(rpc2.FindLocationIn{"Scope":{"GoroutineID":-1,"Frame":0,"DeferredCall":0},"Loc":"main.main","IncludeNonExecutableLines":false,"SubstitutePathRules":null})
+2022-05-22T07:43:08+08:00 debug layer=rpc -> *rpc2.FindLocationOut{"Locations":[{"pc":4810570,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"pcs":[4810570]}]} error: ""
+2022-05-22T07:43:08+08:00 debug layer=rpc <- RPCServer.CreateBreakpoint(rpc2.CreateBreakpointIn{"Breakpoint":{"id":0,"name":"","addr":4810570,"addrs":[4810570],"file":"","line":0,"Cond":"","HitCond":"","continue":false,"traceReturn":false,"goroutine":false,"stacktrace":0,"LoadArgs":null,"LoadLocals":null,"WatchExpr":"","WatchType":0,"hitCount":null,"totalHitCount":0,"disabled":false}})
+2022-05-22T07:43:08+08:00 debug layer=rpc -> *rpc2.CreateBreakpointOut{"Breakpoint":{"id":0,"name":"","addr":0,"addrs":null,"file":"","line":0,"Cond":"","HitCond":"","continue":false,"traceReturn":false,"goroutine":false,"stacktrace":0,"LoadArgs":null,"LoadLocals":null,"WatchExpr":"","WatchType":0,"hitCount":null,"totalHitCount":0,"disabled":false}} error: "Breakpoint exists at /home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go:21 at 49674a"
+2022-05-22T07:43:10+08:00 debug layer=rpc (async 14) <- RPCServer.Command(api.DebuggerCommand{"name":"continue","ReturnInfoLoadConfig":{"FollowPointers":true,"MaxVariableRecurse":1,"MaxStringLen":64,"MaxArrayValues":64,"MaxStructFields":-1}})
+2022-05-22T07:43:10+08:00 debug layer=rpc (async 14) -> rpc2.CommandOut{"State":{"Pid":907169,"Running":false,"Recording":false,"CoreDumping":false,"Threads":null,"NextInProgress":false,"WatchOutOfScope":null,"exited":true,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:43:10+08:00 debug layer=rpc <- RPCServer.ProcessPid(rpc2.ProcessPidIn{})
+2022-05-22T07:43:10+08:00 debug layer=rpc -> *rpc2.ProcessPidOut{"Pid":907169} error: ""
+2022-05-22T07:43:10+08:00 debug layer=rpc (async 16) <- RPCServer.State(rpc2.StateIn{"NonBlocking":false})
+2022-05-22T07:43:10+08:00 debug layer=rpc (async 16) -> <nil>null error: "Process 907169 has exited with status 0"
+2022-05-22T07:43:15+08:00 debug layer=rpc <- RPCServer.FindLocation(rpc2.FindLocationIn{"Scope":{"GoroutineID":-1,"Frame":0,"DeferredCall":0},"Loc":"main.main","IncludeNonExecutableLines":false,"SubstitutePathRules":null})
+2022-05-22T07:43:15+08:00 debug layer=rpc -> *rpc2.FindLocationOut{"Locations":null} error: "Process 907169 has exited with status 0"
+2022-05-22T07:43:33+08:00 debug layer=rpc (async 18) <- RPCServer.State(rpc2.StateIn{"NonBlocking":false})
+2022-05-22T07:43:33+08:00 debug layer=rpc (async 18) -> <nil>null error: "Process 907169 has exited with status 0"
+2022-05-22T07:43:36+08:00 debug layer=rpc (async 19) <- RPCServer.Command(api.DebuggerCommand{"name":"continue","ReturnInfoLoadConfig":{"FollowPointers":true,"MaxVariableRecurse":1,"MaxStringLen":64,"MaxArrayValues":64,"MaxStructFields":-1}})
+2022-05-22T07:43:36+08:00 debug layer=rpc (async 19) -> rpc2.CommandOut{"State":{"Pid":907169,"Running":false,"Recording":false,"CoreDumping":false,"Threads":null,"NextInProgress":false,"WatchOutOfScope":null,"exited":true,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:43:36+08:00 debug layer=rpc <- RPCServer.ProcessPid(rpc2.ProcessPidIn{})
+2022-05-22T07:43:36+08:00 debug layer=rpc -> *rpc2.ProcessPidOut{"Pid":907169} error: ""
+2022-05-22T07:43:36+08:00 debug layer=rpc (async 21) <- RPCServer.State(rpc2.StateIn{"NonBlocking":false})
+2022-05-22T07:43:36+08:00 debug layer=rpc (async 21) -> <nil>null error: "Process 907169 has exited with status 0"
+2022-05-22T07:43:40+08:00 debug layer=rpc <- RPCServer.FindLocation(rpc2.FindLocationIn{"Scope":{"GoroutineID":-1,"Frame":0,"DeferredCall":0},"Loc":"main.main","IncludeNonExecutableLines":false,"SubstitutePathRules":null})
+2022-05-22T07:43:40+08:00 debug layer=rpc -> *rpc2.FindLocationOut{"Locations":null} error: "Process 907169 has exited with status 0"
+2022-05-22T07:43:42+08:00 debug layer=rpc <- RPCServer.Recorded(rpc2.RecordedIn{})
+2022-05-22T07:43:42+08:00 debug layer=rpc -> *rpc2.RecordedOut{"Recorded":false,"TraceDirectory":""} error: ""
+2022-05-22T07:43:42+08:00 debug layer=rpc (async 24) <- RPCServer.Restart(rpc2.RestartIn{"Position":"","ResetArgs":false,"NewArgs":null,"Rerecord":false,"Rebuild":false,"NewRedirects":["","",""]})
+2022-05-22T07:43:42+08:00 debug layer=rpc (async 24) -> rpc2.RestartOut{"DiscardedBreakpoints":[]} error: ""
+2022-05-22T07:43:42+08:00 debug layer=rpc <- RPCServer.ProcessPid(rpc2.ProcessPidIn{})
+2022-05-22T07:43:42+08:00 debug layer=rpc -> *rpc2.ProcessPidOut{"Pid":909892} error: ""
+2022-05-22T07:43:44+08:00 debug layer=rpc (async 26) <- RPCServer.Command(api.DebuggerCommand{"name":"continue","ReturnInfoLoadConfig":{"FollowPointers":true,"MaxVariableRecurse":1,"MaxStringLen":64,"MaxArrayValues":64,"MaxStructFields":-1}})
+2022-05-22T07:43:44+08:00 debug layer=rpc (async 26) -> rpc2.CommandOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":909892,"pc":4810570,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"goroutineID":1,"breakPoint":{"id":1,"name":"","addr":4810570,"addrs":[4810570],"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"functionName":"main.main","Cond":"","HitCond":"","continue":false,"traceReturn":false,"goroutine":false,"stacktrace":0,"LoadArgs":null,"LoadLocals":null,"WatchExpr":"","WatchType":0,"hitCount":{"1":1},"totalHitCount":1,"disabled":false},"breakPointInfo":{},"ReturnValues":null,"CallReturn":false},"currentGoroutine":{"id":1,"currentLoc":{"pc":4810570,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false}},"userCurrentLoc":{"pc":4810570,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false}},"goStatementLoc":{"pc":4602533,"file":"\u003cautogenerated\u003e","line":1,"function":{"name":"runtime.newproc","value":4602496,"type":0,"goType":0,"optimized":true}},"startLoc":{"pc":4420064,"file":"/usr/lib/go/src/runtime/proc.go","line":145,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true}},"threadID":909892,"status":2,"waitSince":0,"waitReason":14,"unreadable":""},"Threads":[{"id":909892,"pc":4810570,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"goroutineID":1,"breakPoint":{"id":1,"name":"","addr":4810570,"addrs":[4810570],"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":21,"functionName":"main.main","Cond":"","HitCond":"","continue":false,"traceReturn":false,"goroutine":false,"stacktrace":0,"LoadArgs":null,"LoadLocals":null,"WatchExpr":"","WatchType":0,"hitCount":{"1":1},"totalHitCount":1,"disabled":false},"breakPointInfo":{},"ReturnValues":null,"CallReturn":false},{"id":910176,"pc":4599197,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":149,"function":{"name":"runtime.usleep","value":4599136,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910177,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910178,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910179,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:43:44+08:00 debug layer=rpc <- RPCServer.LastModified(rpc2.LastModifiedIn{})
+2022-05-22T07:43:44+08:00 debug layer=rpc -> *rpc2.LastModifiedOut{"Time":"2022-05-22T07:42:45.143608043+08:00"} error: ""
+2022-05-22T07:43:47+08:00 debug layer=rpc (async 28) <- RPCServer.Command(api.DebuggerCommand{"name":"step","ReturnInfoLoadConfig":{"FollowPointers":true,"MaxVariableRecurse":1,"MaxStringLen":64,"MaxArrayValues":64,"MaxStructFields":-1}})
+2022-05-22T07:43:47+08:00 debug layer=rpc (async 28) -> rpc2.CommandOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":909892,"pc":4810584,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":22,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},"currentGoroutine":{"id":1,"currentLoc":{"pc":4810584,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":22,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false}},"userCurrentLoc":{"pc":4810584,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":22,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false}},"goStatementLoc":{"pc":4602533,"file":"\u003cautogenerated\u003e","line":1,"function":{"name":"runtime.newproc","value":4602496,"type":0,"goType":0,"optimized":true}},"startLoc":{"pc":4420064,"file":"/usr/lib/go/src/runtime/proc.go","line":145,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true}},"threadID":909892,"status":2,"waitSince":0,"waitReason":14,"unreadable":""},"Threads":[{"id":910176,"pc":4599197,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":149,"function":{"name":"runtime.usleep","value":4599136,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910177,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910178,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910179,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":909892,"pc":4810584,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":22,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:43:47+08:00 debug layer=rpc <- RPCServer.LastModified(rpc2.LastModifiedIn{})
+2022-05-22T07:43:47+08:00 debug layer=rpc -> *rpc2.LastModifiedOut{"Time":"2022-05-22T07:42:45.143608043+08:00"} error: ""
+2022-05-22T07:43:49+08:00 debug layer=rpc (async 30) <- RPCServer.Command(api.DebuggerCommand{"name":"step","ReturnInfoLoadConfig":{"FollowPointers":true,"MaxVariableRecurse":1,"MaxStringLen":64,"MaxArrayValues":64,"MaxStructFields":-1}})
+2022-05-22T07:43:49+08:00 debug layer=rpc (async 30) -> rpc2.CommandOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":909892,"pc":4810438,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":17,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},"currentGoroutine":{"id":1,"currentLoc":{"pc":4810438,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":17,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"userCurrentLoc":{"pc":4810438,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":17,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"goStatementLoc":{"pc":4602533,"file":"\u003cautogenerated\u003e","line":1,"function":{"name":"runtime.newproc","value":4602496,"type":0,"goType":0,"optimized":true}},"startLoc":{"pc":4420064,"file":"/usr/lib/go/src/runtime/proc.go","line":145,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true}},"threadID":909892,"status":2,"waitSince":0,"waitReason":14,"unreadable":""},"Threads":[{"id":910179,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":909892,"pc":4810438,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":17,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},{"id":910176,"pc":4599197,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":149,"function":{"name":"runtime.usleep","value":4599136,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910177,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910178,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:43:49+08:00 debug layer=rpc <- RPCServer.LastModified(rpc2.LastModifiedIn{})
+2022-05-22T07:43:49+08:00 debug layer=rpc -> *rpc2.LastModifiedOut{"Time":"2022-05-22T07:42:45.143608043+08:00"} error: ""
+2022-05-22T07:43:51+08:00 debug layer=rpc (async 32) <- RPCServer.Command(api.DebuggerCommand{"name":"step","ReturnInfoLoadConfig":{"FollowPointers":true,"MaxVariableRecurse":1,"MaxStringLen":64,"MaxArrayValues":64,"MaxStructFields":-1}})
+2022-05-22T07:43:51+08:00 debug layer=rpc (async 32) -> rpc2.CommandOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},"currentGoroutine":{"id":1,"currentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"userCurrentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"goStatementLoc":{"pc":4602533,"file":"\u003cautogenerated\u003e","line":1,"function":{"name":"runtime.newproc","value":4602496,"type":0,"goType":0,"optimized":true}},"startLoc":{"pc":4420064,"file":"/usr/lib/go/src/runtime/proc.go","line":145,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true}},"threadID":909892,"status":2,"waitSince":0,"waitReason":14,"unreadable":""},"Threads":[{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},{"id":910176,"pc":4599197,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":149,"function":{"name":"runtime.usleep","value":4599136,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910177,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910178,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910179,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:43:51+08:00 debug layer=rpc <- RPCServer.LastModified(rpc2.LastModifiedIn{})
+2022-05-22T07:43:51+08:00 debug layer=rpc -> *rpc2.LastModifiedOut{"Time":"2022-05-22T07:42:45.143608043+08:00"} error: ""
+2022-05-22T07:44:02+08:00 debug layer=rpc (async 34) <- RPCServer.State(rpc2.StateIn{"NonBlocking":false})
+2022-05-22T07:44:02+08:00 debug layer=rpc (async 34) -> rpc2.StateOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},"currentGoroutine":{"id":1,"currentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"userCurrentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"goStatementLoc":{"pc":4602533,"file":"\u003cautogenerated\u003e","line":1,"function":{"name":"runtime.newproc","value":4602496,"type":0,"goType":0,"optimized":true}},"startLoc":{"pc":4420064,"file":"/usr/lib/go/src/runtime/proc.go","line":145,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true}},"threadID":909892,"status":2,"waitSince":0,"waitReason":14,"unreadable":""},"Threads":[{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},{"id":910176,"pc":4599197,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":149,"function":{"name":"runtime.usleep","value":4599136,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910177,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910178,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910179,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:44:02+08:00 debug layer=rpc <- RPCServer.LastModified(rpc2.LastModifiedIn{})
+2022-05-22T07:44:02+08:00 debug layer=rpc -> *rpc2.LastModifiedOut{"Time":"2022-05-22T07:42:45.143608043+08:00"} error: ""
+2022-05-22T07:44:08+08:00 debug layer=rpc <- RPCServer.Stacktrace(rpc2.StacktraceIn{"Id":-1,"Depth":1,"Full":false,"Defers":false,"Opts":0,"Cfg":null})
+2022-05-22T07:44:08+08:00 debug layer=rpc -> *rpc2.StacktraceOut{"Locations":[{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"Locals":null,"Arguments":null,"FrameOffset":-248,"FramePointerOffset":-264,"Defers":[],"Err":""},{"pc":4810599,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":22,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"Locals":null,"Arguments":null,"FrameOffset":-128,"FramePointerOffset":-144,"Defers":[],"Err":""}]} error: ""
+2022-05-22T07:44:08+08:00 debug layer=rpc (async 37) <- RPCServer.State(rpc2.StateIn{"NonBlocking":false})
+2022-05-22T07:44:08+08:00 debug layer=rpc (async 37) -> rpc2.StateOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},"currentGoroutine":{"id":1,"currentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"userCurrentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"goStatementLoc":{"pc":4602533,"file":"\u003cautogenerated\u003e","line":1,"function":{"name":"runtime.newproc","value":4602496,"type":0,"goType":0,"optimized":true}},"startLoc":{"pc":4420064,"file":"/usr/lib/go/src/runtime/proc.go","line":145,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true}},"threadID":909892,"status":2,"waitSince":0,"waitReason":14,"unreadable":""},"Threads":[{"id":910176,"pc":4599197,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":149,"function":{"name":"runtime.usleep","value":4599136,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910177,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910178,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910179,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:44:08+08:00 debug layer=rpc <- RPCServer.LastModified(rpc2.LastModifiedIn{})
+2022-05-22T07:44:08+08:00 debug layer=rpc -> *rpc2.LastModifiedOut{"Time":"2022-05-22T07:42:45.143608043+08:00"} error: ""
+2022-05-22T07:44:33+08:00 debug layer=rpc <- RPCServer.Stacktrace(rpc2.StacktraceIn{"Id":-1,"Depth":2,"Full":false,"Defers":false,"Opts":0,"Cfg":null})
+2022-05-22T07:44:33+08:00 debug layer=rpc -> *rpc2.StacktraceOut{"Locations":[{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"Locals":null,"Arguments":null,"FrameOffset":-248,"FramePointerOffset":-264,"Defers":[],"Err":""},{"pc":4810599,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":22,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"Locals":null,"Arguments":null,"FrameOffset":-128,"FramePointerOffset":-144,"Defers":[],"Err":""},{"pc":4420536,"file":"/usr/lib/go/src/runtime/proc.go","line":250,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true},"Locals":null,"Arguments":null,"FrameOffset":-32,"FramePointerOffset":-48,"Defers":[],"Err":""}]} error: ""
+2022-05-22T07:44:33+08:00 debug layer=rpc (async 40) <- RPCServer.State(rpc2.StateIn{"NonBlocking":false})
+2022-05-22T07:44:33+08:00 debug layer=rpc (async 40) -> rpc2.StateOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},"currentGoroutine":{"id":1,"currentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"userCurrentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"goStatementLoc":{"pc":4602533,"file":"\u003cautogenerated\u003e","line":1,"function":{"name":"runtime.newproc","value":4602496,"type":0,"goType":0,"optimized":true}},"startLoc":{"pc":4420064,"file":"/usr/lib/go/src/runtime/proc.go","line":145,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true}},"threadID":909892,"status":2,"waitSince":0,"waitReason":14,"unreadable":""},"Threads":[{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},{"id":910176,"pc":4599197,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":149,"function":{"name":"runtime.usleep","value":4599136,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910177,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910178,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910179,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:44:33+08:00 debug layer=rpc <- RPCServer.LastModified(rpc2.LastModifiedIn{})
+2022-05-22T07:44:33+08:00 debug layer=rpc -> *rpc2.LastModifiedOut{"Time":"2022-05-22T07:42:45.143608043+08:00"} error: ""
+2022-05-22T07:44:46+08:00 debug layer=rpc <- RPCServer.Stacktrace(rpc2.StacktraceIn{"Id":-1,"Depth":1,"Full":false,"Defers":false,"Opts":0,"Cfg":null})
+2022-05-22T07:44:46+08:00 debug layer=rpc -> *rpc2.StacktraceOut{"Locations":[{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"Locals":null,"Arguments":null,"FrameOffset":-248,"FramePointerOffset":-264,"Defers":[],"Err":""},{"pc":4810599,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":22,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"Locals":null,"Arguments":null,"FrameOffset":-128,"FramePointerOffset":-144,"Defers":[],"Err":""}]} error: ""
+2022-05-22T07:44:46+08:00 debug layer=rpc (async 43) <- RPCServer.State(rpc2.StateIn{"NonBlocking":false})
+2022-05-22T07:44:46+08:00 debug layer=rpc (async 43) -> rpc2.StateOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},"currentGoroutine":{"id":1,"currentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"userCurrentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"goStatementLoc":{"pc":4602533,"file":"\u003cautogenerated\u003e","line":1,"function":{"name":"runtime.newproc","value":4602496,"type":0,"goType":0,"optimized":true}},"startLoc":{"pc":4420064,"file":"/usr/lib/go/src/runtime/proc.go","line":145,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true}},"threadID":909892,"status":2,"waitSince":0,"waitReason":14,"unreadable":""},"Threads":[{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},{"id":910176,"pc":4599197,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":149,"function":{"name":"runtime.usleep","value":4599136,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910177,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910178,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910179,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:44:46+08:00 debug layer=rpc <- RPCServer.LastModified(rpc2.LastModifiedIn{})
+2022-05-22T07:44:46+08:00 debug layer=rpc -> *rpc2.LastModifiedOut{"Time":"2022-05-22T07:42:45.143608043+08:00"} error: ""
+2022-05-22T07:45:38+08:00 debug layer=rpc <- RPCServer.Stacktrace(rpc2.StacktraceIn{"Id":-1,"Depth":0,"Full":false,"Defers":false,"Opts":0,"Cfg":null})
+2022-05-22T07:45:38+08:00 debug layer=rpc -> *rpc2.StacktraceOut{"Locations":[{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"Locals":null,"Arguments":null,"FrameOffset":-248,"FramePointerOffset":-264,"Defers":[],"Err":""}]} error: ""
+2022-05-22T07:45:38+08:00 debug layer=rpc (async 46) <- RPCServer.State(rpc2.StateIn{"NonBlocking":false})
+2022-05-22T07:45:38+08:00 debug layer=rpc (async 46) -> rpc2.StateOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},"currentGoroutine":{"id":1,"currentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"userCurrentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"goStatementLoc":{"pc":4602533,"file":"\u003cautogenerated\u003e","line":1,"function":{"name":"runtime.newproc","value":4602496,"type":0,"goType":0,"optimized":true}},"startLoc":{"pc":4420064,"file":"/usr/lib/go/src/runtime/proc.go","line":145,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true}},"threadID":909892,"status":2,"waitSince":0,"waitReason":14,"unreadable":""},"Threads":[{"id":910177,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910178,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910179,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},{"id":910176,"pc":4599197,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":149,"function":{"name":"runtime.usleep","value":4599136,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:45:38+08:00 debug layer=rpc <- RPCServer.LastModified(rpc2.LastModifiedIn{})
+2022-05-22T07:45:38+08:00 debug layer=rpc -> *rpc2.LastModifiedOut{"Time":"2022-05-22T07:42:45.143608043+08:00"} error: ""
+2022-05-22T07:45:51+08:00 debug layer=rpc <- RPCServer.Stacktrace(rpc2.StacktraceIn{"Id":-1,"Depth":1,"Full":false,"Defers":false,"Opts":0,"Cfg":null})
+2022-05-22T07:45:51+08:00 debug layer=rpc -> *rpc2.StacktraceOut{"Locations":[{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"Locals":null,"Arguments":null,"FrameOffset":-248,"FramePointerOffset":-264,"Defers":[],"Err":""},{"pc":4810599,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":22,"function":{"name":"main.main","value":4810560,"type":0,"goType":0,"optimized":false},"Locals":null,"Arguments":null,"FrameOffset":-128,"FramePointerOffset":-144,"Defers":[],"Err":""}]} error: ""
+2022-05-22T07:45:51+08:00 debug layer=rpc (async 49) <- RPCServer.State(rpc2.StateIn{"NonBlocking":false})
+2022-05-22T07:45:51+08:00 debug layer=rpc (async 49) -> rpc2.StateOut{"State":{"Pid":0,"Running":false,"Recording":false,"CoreDumping":false,"currentThread":{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},"currentGoroutine":{"id":1,"currentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"userCurrentLoc":{"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false}},"goStatementLoc":{"pc":4602533,"file":"\u003cautogenerated\u003e","line":1,"function":{"name":"runtime.newproc","value":4602496,"type":0,"goType":0,"optimized":true}},"startLoc":{"pc":4420064,"file":"/usr/lib/go/src/runtime/proc.go","line":145,"function":{"name":"runtime.main","value":4420064,"type":0,"goType":0,"optimized":true}},"threadID":909892,"status":2,"waitSince":0,"waitReason":14,"unreadable":""},"Threads":[{"id":910177,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910178,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":910179,"pc":4600707,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":553,"function":{"name":"runtime.futex","value":4600672,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false},{"id":909892,"pc":4810471,"file":"/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go","line":18,"function":{"name":"main.minus","value":4810432,"type":0,"goType":0,"optimized":false},"goroutineID":1,"ReturnValues":null,"CallReturn":false},{"id":910176,"pc":4599197,"file":"/usr/lib/go/src/runtime/sys_linux_amd64.s","line":149,"function":{"name":"runtime.usleep","value":4599136,"type":0,"goType":0,"optimized":true},"goroutineID":0,"ReturnValues":null,"CallReturn":false}],"NextInProgress":false,"WatchOutOfScope":[],"exited":false,"exitStatus":0,"When":""}} error: ""
+2022-05-22T07:45:51+08:00 debug layer=rpc <- RPCServer.LastModified(rpc2.LastModifiedIn{})
+2022-05-22T07:45:51+08:00 debug layer=rpc -> *rpc2.LastModifiedOut{"Time":"2022-05-22T07:42:45.143608043+08:00"} error: ""
+2022-05-22T07:53:55+08:00 debug layer=rpc (async 51) <- RPCServer.State(rpc2.StateIn{"NonBlocking":false})
+2022-05-22T07:53:55+08:00 debug layer=rpc (async 51) -> rpc2.StateOut
+{
+  "State": {
+    "CoreDumping": false,
+    "NextInProgress": false,
+    "Pid": 0,
+    "Recording": false,
+    "Running": false,
+    "Threads": [
+      {
+        "CallReturn": false,
+        "ReturnValues": null,
+        "file": "/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go",
+        "function": {
+          "goType": 0,
+          "name": "main.minus",
+          "optimized": false,
+          "type": 0,
+          "value": 4810432
+        },
+        "goroutineID": 1,
+        "id": 909892,
+        "line": 18,
+        "pc": 4810471
+      },
+      {
+        "CallReturn": false,
+        "ReturnValues": null,
+        "file": "/usr/lib/go/src/runtime/sys_linux_amd64.s",
+        "function": {
+          "goType": 0,
+          "name": "runtime.usleep",
+          "optimized": true,
+          "type": 0,
+          "value": 4599136
+        },
+        "goroutineID": 0,
+        "id": 910176,
+        "line": 149,
+        "pc": 4599197
+      },
+      {
+        "CallReturn": false,
+        "ReturnValues": null,
+        "file": "/usr/lib/go/src/runtime/sys_linux_amd64.s",
+        "function": {
+          "goType": 0,
+          "name": "runtime.futex",
+          "optimized": true,
+          "type": 0,
+          "value": 4600672
+        },
+        "goroutineID": 0,
+        "id": 910177,
+        "line": 553,
+        "pc": 4600707
+      },
+      {
+        "CallReturn": false,
+        "ReturnValues": null,
+        "file": "/usr/lib/go/src/runtime/sys_linux_amd64.s",
+        "function": {
+          "goType": 0,
+          "name": "runtime.futex",
+          "optimized": true,
+          "type": 0,
+          "value": 4600672
+        },
+        "goroutineID": 0,
+        "id": 910178,
+        "line": 553,
+        "pc": 4600707
+      },
+      {
+        "CallReturn": false,
+        "ReturnValues": null,
+        "file": "/usr/lib/go/src/runtime/sys_linux_amd64.s",
+        "function": {
+          "goType": 0,
+          "name": "runtime.futex",
+          "optimized": true,
+          "type": 0,
+          "value": 4600672
+        },
+        "goroutineID": 0,
+        "id": 910179,
+        "line": 553,
+        "pc": 4600707
+      }
+    ],
+    "WatchOutOfScope": [],
+    "When": "",
+    "currentGoroutine": {
+      "currentLoc": {
+        "file": "/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go",
+        "function": {
+          "goType": 0,
+          "name": "main.minus",
+          "optimized": false,
+          "type": 0,
+          "value": 4810432
+        },
+        "line": 18,
+        "pc": 4810471
+      },
+      "goStatementLoc": {
+        "file": "<autogenerated>",
+        "function": {
+          "goType": 0,
+          "name": "runtime.newproc",
+          "optimized": true,
+          "type": 0,
+          "value": 4602496
+        },
+        "line": 1,
+        "pc": 4602533
+      },
+      "id": 1,
+      "startLoc": {
+        "file": "/usr/lib/go/src/runtime/proc.go",
+        "function": {
+          "goType": 0,
+          "name": "runtime.main",
+          "optimized": true,
+          "type": 0,
+          "value": 4420064
+        },
+        "line": 145,
+        "pc": 4420064
+      },
+      "status": 2,
+      "threadID": 909892,
+      "unreadable": "",
+      "userCurrentLoc": {
+        "file": "/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go",
+        "function": {
+          "goType": 0,
+          "name": "main.minus",
+          "optimized": false,
+          "type": 0,
+          "value": 4810432
+        },
+        "line": 18,
+        "pc": 4810471
+      },
+      "waitReason": 14,
+      "waitSince": 0
+    },
+    "currentThread": {
+      "CallReturn": false,
+      "ReturnValues": null,
+      "file": "/home/lee/vim-dev/plug.nvim/plugged/termdebug-go/main.go",
+      "function": {
+        "goType": 0,
+        "name": "main.minus",
+        "optimized": false,
+        "type": 0,
+        "value": 4810432
+      },
+      "goroutineID": 1,
+      "id": 909892,
+      "line": 18,
+      "pc": 4810471
+    },
+    "exitStatus": 0,
+    "exited": false
+  }
+}
+
+error: ""
+2022-05-22T07:53:55+08:00 debug layer=rpc <- RPCServer.IsMulticlient(rpc2.IsMulticlientIn{})
+2022-05-22T07:53:55+08:00 debug layer=rpc -> *rpc2.IsMulticlientOut{"IsMulticlient":false} error: ""
+2022-05-22T07:53:55+08:00 debug layer=rpc <- RPCServer.AttachedToExistingProcess(rpc2.AttachedToExistingProcessIn{})
+2022-05-22T07:53:55+08:00 debug layer=rpc -> *rpc2.AttachedToExistingProcessOut{"Answer":false} error: ""
+2022-05-22T07:53:55+08:00 debug layer=rpc <- RPCServer.Detach(rpc2.DetachIn{"Kill":true})
+2022-05-22T07:53:56+08:00 debug layer=rpc -> *rpc2.DetachOut{} error: ""

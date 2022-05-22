@@ -1,7 +1,6 @@
 Before:
-  edit ./main.go
+  edit main.go
   let g:test_source_buf = bufnr('%')
-  " echom 'bufnum'. g:test_source_buf
   TermdebugGo
   let g:test_dlv_buf = bufnr('%')
 
