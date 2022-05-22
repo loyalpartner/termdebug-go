@@ -158,8 +158,10 @@ func s:EndTermDebug(chan, exited)
   for [id, entry] in items(s:breakpoints)
     exec 'sign unplace ' . s:Breakpoint2SignNumber(id, 0)
   endfor
-  unlet s:breakpoints
-  unlet s:breakpoint_locations
+  unlet! s:breakpoints
+  unlet! s:breakpoint_locations
+
+  au! TermDebugGo
 endfunc
 
 func s:CloseBuffers()

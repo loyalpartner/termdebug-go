@@ -3,3 +3,4 @@ Gemfile.lock
 VimFlavor.lock
 __debug_bin
 .gdb_history
+.log.txt
