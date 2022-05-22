@@ -88,11 +88,12 @@ func s:StartDebug_term(dict)
   
   let dlv_cmd += len(dlv_args[1:]) == 0 ?  ['./main.go'] : dlv_args[1:]
 
-  echom join(dlv_cmd, " ")
+  " echom join(dlv_cmd, " ")
 
   " Open a terminal window without a job, to run the debugged program in.
   let s:dlvbuf = term_start(join(dlv_cmd, ' '), {
 	\ 'term_name': 'delve debugger',
+  \ 'out_cb': function('s:DlvMsgOutput'),
   \ 'term_finish': 'close',
 	\ })
   if s:dlvbuf == 0
@@ -182,8 +183,6 @@ func s:JsonRpcOutput(chan, msg)
       call s:HandleClearBreakpoint(msg)
     elseif msg =~ 'rpc2.CommandOut'
       call s:HandleNext(msg)
-    elseif msg =~ 'rpc2.StacktraceOut'
-      call s:HandleStacktraceOut(msg)
     endif
   
   endfor
@@ -209,134 +208,97 @@ func s:CreateBreakpoint(id, subid, enabled)
 endfunc
 
 func s:HandleNewBreakpoint(msg, modifiedFlag)
-  " debug
-  for msg in s:SplitMsg(a:msg)
-    if empty(msg)
-      return
-    endif
-    let msg = json_decode(msg)
-    let msg = msg['Breakpoint']
+  let msg = s:DecodeMsg(a:msg)
+  let breakpoint = msg['Breakpoint']
 
-    let id = msg['id']
-    let fname = msg['file']
-    let lnum = msg['line']
-    let subid = 0
+  let id = breakpoint['id']
+  let fname = breakpoint['file']
+  let lnum = breakpoint['line']
+  let subid = 0
 
 
-    call s:CreateBreakpoint(id, 0, v:true)
+  call s:CreateBreakpoint(id, 0, v:true)
 
-    if has_key(s:breakpoints, id)
-      let entry = s:breakpoints[id]
-    else
-      let entry = { 
-            \ 'fname': fname,
-            \ 'line': lnum,
-            \ 'subid': 0,
-            \ }
-      let s:breakpoints[id] = entry
-    endif
+  if has_key(s:breakpoints, id)
+    let entry = s:breakpoints[id]
+  else
+    let entry = { 
+          \ 'fname': fname,
+          \ 'line': lnum,
+          \ 'subid': 0,
+          \ }
+    let s:breakpoints[id] = entry
+  endif
 
-    let bploc = printf('%s:%d', fname, lnum)
-    if !has_key(s:breakpoint_locations, bploc)
-      let s:breakpoint_locations[bploc] = []
-    endif
-    let s:breakpoint_locations[bploc] += [id]
+  let bploc = printf('%s:%d', fname, lnum)
+  if !has_key(s:breakpoint_locations, bploc)
+    let s:breakpoint_locations[bploc] = []
+  endif
+  let s:breakpoint_locations[bploc] += [id]
 
-    if bufloaded(fname)
-      call s:PlaceSign(id, subid, entry)
-    endif
-  endfor
+  if bufloaded(fname)
+    call s:PlaceSign(id, subid, entry)
+  endif
 endfunc
 
 func s:HandleClearBreakpoint(msg)
-  for msg in s:SplitMsg(a:msg)
-    if empty(msg)
-      return
-    endif
-    let msg = json_decode(msg)
-    let msg = msg['Breakpoint']
-    let id = msg['id']
+  let msg = s:DecodeMsg(a:msg)
+  let breakpoint = msg['Breakpoint']
+  let id = breakpoint['id']
 
-    if has_key(s:breakpoints, id)
-      exec 'sign unplace ' . s:Breakpoint2SignNumber(id, 0)
-      let entry = s:breakpoints[id]
-      unlet entry['placed']
-      unlet s:breakpoints[id]
-    endif
-  endfor
+  if has_key(s:breakpoints, id)
+    exec 'sign unplace ' . s:Breakpoint2SignNumber(id, 0)
+    let entry = s:breakpoints[id]
+    unlet entry['placed']
+    unlet s:breakpoints[id]
+  endif
 endfunc
 
 func s:HandleNext(msg)
-  for msg in s:SplitMsg(a:msg)
-    if empty(msg)
-      return
-    endif
+  let msg = s:DecodeMsg(a:msg)
+  let state = msg['State']
 
-    let wid = win_getid(winnr())
+  let wid = win_getid(winnr())
 
-    let msg = json_decode(msg)
-
-    if msg['State']['exited']
-      exec 'sign unplace ' . s:pc_id
-      return
-    endif
-
-    " let msg = msg['State']['currentGoroutine']['userCurrentLoc']
-    let msg = msg['State']['currentGoroutine']['currentLoc']
-
-    let fname = msg['file']
-    let lnum = msg['line']
-
-    call s:GotoSourcewinOrCreateIt()
-
-    if expand('%:p') != fnamemodify(fname, ':p')
-      exec 'edit ' . fnameescape(fname)
-    endif
-
-    exec lnum
-    normal! zv
+  if state['exited']
     exec 'sign unplace ' . s:pc_id
-    exec 'sign place ' . s:pc_id . ' line=' . lnum . ' name=debugPC priority=110 file=' . fname
+    return
+  endif
 
-    call win_gotoid(wid)
-  endfor
+  " let msg = msg['State']['currentGoroutine']['userCurrentLoc']
+  let location = state['currentGoroutine']['currentLoc']
+  let fname = location['file']
+  let lnum = location['line']
+
+  call s:UpdateCursorPos(fname, lnum)
 endfunc
 
-func s:HandleStacktraceOut(msg)
-  for msg in s:SplitMsg(a:msg)
-    if empty(msg)
-      return
-    endif
+func s:DlvMsgOutput(chan,msg)
+  if a:msg =~ 'not on topmost frame'
+    call term_sendkeys(s:dlvbuf, "frame 0")
+    return
+  elseif a:msg =~ '\vFrame \d+: (.{-}):(\d+)'
+    let frame = matchlist(a:msg, '\vFrame \d+: (.{-}):(\d+)')
+    call s:UpdateCursorPos(frame[1], frame[2])
+  endif
+endfunc
 
-    let wid = win_getid(winnr())
+func s:UpdateCursorPos(fname, line)
+  let wid = win_getid(winnr())
+  let fname = a:fname
+  let lnum = a:line
 
-    let msg = json_decode(msg)
+  call s:GotoSourcewinOrCreateIt()
 
-    echom msg
-    if empty(msg['Locations']) && len(msg['Locations']) <= 0
-      " echoerr "stacktrace array's length less than 1"
-      return
-    endif
+  if expand('%:p') != fnamemodify(fname, ':p')
+    exec 'edit ' . fnameescape(fname)
+  endif
 
-    " let msg = msg['State']['currentGoroutine']['userCurrentLoc']
-    let msg = msg['Locations'][-1]
-
-    let fname = msg['file']
-    let lnum = msg['line']
-
-    call s:GotoSourcewinOrCreateIt()
-
-    if expand('%:p') != fnamemodify(fname, ':p')
-      exec 'edit ' . fnameescape(fname)
-    endif
-
-    exec lnum
-    normal! zv
-    exec 'sign unplace ' . s:pc_id
-    exec 'sign place ' . s:pc_id . ' line=' . lnum . ' name=debugPC priority=110 file=' . fname
-
-    call win_gotoid(wid)
-  endfor
+  exec lnum
+  normal! zv
+  exec 'sign unplace ' . s:pc_id
+  exec 'sign place ' . s:pc_id . ' line=' . lnum . ' name=debugPC priority=110 file=' . fname
+  call win_gotoid(wid)
 endfunc
 
 func s:GotoSourcewinOrCreateIt()
@@ -347,8 +309,19 @@ func s:GotoSourcewinOrCreateIt()
   endif
 endfunc
 
-func! s:SplitMsg(s)
-  return matchlist(a:s, '{.\{}}')
+func! s:DecodeMsg(msg)
+  let msg = matchstr(a:msg, '{.*}')
+  if empty(msg)
+    return
+  endif
+
+  let retMsg = {}
+  try
+    let retMsg = json_decode(msg)
+  catch
+   echoerr "Decode msg error"
+  endtry
+  return retMsg
 endfunction
 
 
