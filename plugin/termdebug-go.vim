@@ -63,28 +63,28 @@ func s:CheckRunning()
 endfunc
 
 func s:StartDebug_term(dict)
-  let s:rpcbuf = term_start('NONE', {
+  let s:logbuf = term_start('NONE', {
 	\ 'term_name': 'json rpc log',
-	\ 'out_cb': function('s:JsonRpcOutput'),
 	\ 'vertical': s:vertical,
 	\ })
-  if s:rpcbuf == 0
+  if s:logbuf == 0
     echoerr 'Failed to open the program terminal window'
-    exec 'bwipe! ' . s:rpcbuf
+    exec 'bwipe! ' . s:logbuf
     return
   endif
 
-  let rpc = job_info(term_getjob(s:rpcbuf))['tty_out']
+  let logpty = job_info(term_getjob(s:logbuf))['tty_out']
   let s:rpcwin = win_getid(winnr())
 
   let dlv_args = get(a:dict, 'dlv_args', [])
   " let proc_args = get(a:dict, 'proc_args', [])
 
-  " dlv debug --log  --log-dest /dev/pts/13 --log-output rpc  ./main.go
+  " dlv debug --log  --log-dest /dev/pts/13 --log-output logpty  ./main.go
   let dlv_cmd = s:GetCommand()
   let dlv_cmd += dlv_args[0:1]
-  let dlv_cmd += ['--log', '--log-output', 'rpc']
-  let dlv_cmd += ['--log-dest', rpc]
+   " let dlv_cmd += ['--log', '--log-output', 'rpc']
+  " let dlv_cmd += ['--log-dest', logpty]
+  let dlv_cmd += ['--tty', logpty]
   
   let dlv_cmd += len(dlv_args[1:]) == 0 ?  ['./main.go'] : dlv_args[1:]
 
@@ -166,7 +166,7 @@ func s:EndTermDebug(chan, exited)
 endfunc
 
 func s:CloseBuffers()
-  exec 'bwipe! ' . s:rpcbuf
+  exec 'bwipe! ' . s:logbuf
 endfunc
 
 func s:JsonRpcOutput(chan, msg)
@@ -181,8 +181,8 @@ func s:JsonRpcOutput(chan, msg)
       call s:HandleNewBreakpoint(msg, 0)
     elseif msg =~ 'rpc2.ClearBreakpointOut'
       call s:HandleClearBreakpoint(msg)
-    elseif msg =~ 'rpc2.CommandOut'
-      call s:HandleNext(msg)
+    " elseif msg =~ 'rpc2.CommandOut'
+    "   call s:HandleNext(msg)
     endif
   
   endfor
@@ -207,44 +207,33 @@ func s:CreateBreakpoint(id, subid, enabled)
   endif
 endfunc
 
-func s:HandleNewBreakpoint(msg, modifiedFlag)
-  let msg = s:DecodeMsg(a:msg)
-  let breakpoint = msg['Breakpoint']
+func s:OnBreakpointAdded(id, fname, lnum)
+  call s:CreateBreakpoint(a:id, 0, v:true)
 
-  let id = breakpoint['id']
-  let fname = breakpoint['file']
-  let lnum = breakpoint['line']
-  let subid = 0
-
-
-  call s:CreateBreakpoint(id, 0, v:true)
-
-  if has_key(s:breakpoints, id)
-    let entry = s:breakpoints[id]
+  if has_key(s:breakpoints, a:id)
+    let entry = s:breakpoints[a:id]
   else
     let entry = { 
-          \ 'fname': fname,
-          \ 'line': lnum,
+          \ 'fname': a:fname,
+          \ 'line': a:lnum,
           \ 'subid': 0,
           \ }
-    let s:breakpoints[id] = entry
+    let s:breakpoints[a:id] = entry
   endif
 
-  let bploc = printf('%s:%d', fname, lnum)
+  let bploc = printf('%s:%d', a:fname, a:lnum)
   if !has_key(s:breakpoint_locations, bploc)
     let s:breakpoint_locations[bploc] = []
   endif
-  let s:breakpoint_locations[bploc] += [id]
+  let s:breakpoint_locations[bploc] += [a:id]
 
-  if bufloaded(fname)
-    call s:PlaceSign(id, subid, entry)
+  if bufloaded(a:fname)
+    call s:PlaceSign(a:id, 0, entry)
   endif
 endfunc
 
-func s:HandleClearBreakpoint(msg)
-  let msg = s:DecodeMsg(a:msg)
-  let breakpoint = msg['Breakpoint']
-  let id = breakpoint['id']
+func s:OnBreakpointCleared(id)
+  let id = a:id
 
   if has_key(s:breakpoints, id)
     exec 'sign unplace ' . s:Breakpoint2SignNumber(id, 0)
@@ -254,32 +243,27 @@ func s:HandleClearBreakpoint(msg)
   endif
 endfunc
 
-func s:HandleNext(msg)
-  let msg = s:DecodeMsg(a:msg)
-  let state = msg['State']
-
-  let wid = win_getid(winnr())
-
-  if state['exited']
-    exec 'sign unplace ' . s:pc_id
-    return
-  endif
-
-  " let msg = msg['State']['currentGoroutine']['userCurrentLoc']
-  let location = state['currentGoroutine']['currentLoc']
-  let fname = location['file']
-  let lnum = location['line']
-
-  call s:UpdateCursorPos(fname, lnum)
-endfunc
-
 func s:DlvMsgOutput(chan,msg)
   if a:msg =~ 'not on topmost frame'
     call term_sendkeys(s:dlvbuf, "frame 0")
     return
-  elseif a:msg =~ '\vFrame \d+: (.{-}):(\d+)'
+  elseif a:msg =~ '\vFrame \d+: (.{-}).go:(\d+)'
     let frame = matchlist(a:msg, '\vFrame \d+: (.{-}):(\d+)')
     call s:UpdateCursorPos(frame[1], frame[2])
+    return
+  elseif a:msg =~ '\v\>.{-}\(\) (.{-})\.go:(\d+)'
+    let frame = matchlist(a:msg, '\v\>.{-}\(\) (.{-}):(\d+)')
+    call s:UpdateCursorPos(frame[1], frame[2])
+    return
+  elseif a:msg =~ '\v^Breakpoint (\d+) set at.{-}for.{-}\(\) (.{-}):(\d+)'
+    let item = matchlist(a:msg, '\v^Breakpoint (\d+) set at.{-}for.{-}\(\) (.{-}):(\d+)')
+    call s:OnBreakpointAdded(str2nr(item[1]), item[2], item[3])
+  elseif a:msg =~ '\v^Breakpoint (\d+) cleared at'
+    let id = matchlist(a:msg, '\v^Breakpoint (\d+) cleared at')[1]
+    call s:OnBreakpointCleared(str2nr(id))
+  elseif a:msg =~ 'has exited with status'
+    exec 'sign unplace ' . s:pc_id
+    return
   endif
 endfunc
 
@@ -319,7 +303,7 @@ func! s:DecodeMsg(msg)
   try
     let retMsg = json_decode(msg)
   catch
-   echoerr "Decode msg error"
+   echoerr "Decode msg error:" . msg
   endtry
   return retMsg
 endfunction
@@ -357,7 +341,8 @@ endfunc
 func s:BufRead()
   let fname = expand('<afile>:p')
   for [id, entry] in items(s:breakpoints)
-    if entry['fname'] == fname
+    
+    if fnamemodify(entry['fname'], ':p') == fname
       call s:PlaceSign(id, 0, entry)
     endif
   endfor

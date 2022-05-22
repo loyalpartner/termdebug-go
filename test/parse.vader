@@ -1,0 +1,19 @@
+Execute (parse breakpoint message);
+	let bptext = 'Breakpoint 12 set at 0x49812a for main.main() ./main.go:21'
+  let regex = '\v^Breakpoint (\d+) set at.{-}for.{-}\(\) (.{-}):(\d+)'
+
+  Assert bptext =~ regex
+
+  let item  = matchlist(bptext, regex)
+
+  AssertEqual item[1], '12'
+  AssertEqual item[3], '21'
+  AssertEqual item[2], './main.go'
+
+Execute (parse breakpoint clear message):
+
+  let clptext = 'Breakpoint 12 cleared at 0x49812a for main.main() ./main.go:21' 
+  let regex = '\v^Breakpoint (\d+) cleared at'
+
+  Assert clptext =~ regex
+  AssertEqual '12', matchlist(clptext, regex)[1]
