@@ -3,11 +3,16 @@ termdebug-go
 
 [![Build Status](https://app.travis-ci.com/loyalpartner/termdebug-go.svg?branch=main)](https://app.travis-ci.com/loyalpartner/termdebug-go)
 
-The geeks's debugger tool for goers.
+The geeks's debug tool for golang users.
 
 This plugin is inspired [termdebug.vim](https://github.com/vim/vim/blob/master/runtime/pack/dist/opt/termdebug/plugin/termdebug.vim).
 
-[delve](https://github.com/go-delve/delve) frontend for golang.
+## Deps
+[delve](https://github.com/go-delve/delve) 
+
+```
+go install github.com/go-delve/delve/cmd/dlv@latest
+```
 
 ![display](./images/display.gif)
 

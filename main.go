@@ -19,5 +19,5 @@ func minus(a, b int) int {
 }
 
 func main() {
-	fmt.Println("vim-go: %v", minus(3, 1))
+	fmt.Printf("vim-go: %v", minus(3, 1))
 }
