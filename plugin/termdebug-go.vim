@@ -64,7 +64,7 @@ endfunc
 
 func s:StartDebug_term(dict)
   let s:logbuf = term_start('NONE', {
-	\ 'term_name': 'json rpc log',
+	\ 'term_name': 'log',
 	\ 'vertical': s:vertical,
 	\ })
   if s:logbuf == 0
@@ -117,7 +117,7 @@ func s:StartDebug_term(dict)
     endfor
 
     let try_count += 1
-    if try_count > 300
+    if try_count > 100
       " done or give up after five seconds
       break
     endif
@@ -125,6 +125,8 @@ func s:StartDebug_term(dict)
   endwhile
 
   call job_setoptions(term_getjob(s:dlvbuf), {'exit_cb': function('s:EndTermDebug')})
+
+  call term_sendkeys(s:dlvbuf, 'config source-list-line-count 0')
 
   let s:breakpoints = {}
   let s:breakpoint_locations = {}
@@ -167,6 +169,7 @@ endfunc
 
 func s:CloseBuffers()
   exec 'bwipe! ' . s:logbuf
+  " exec 'bwipe! ' . s:dlvbuf
 endfunc
 
 let s:BreakpointSigns = []
