@@ -3,7 +3,8 @@ if exists(':TermdebugGo2')
   finish
 endif
 
-command -nargs=* -complete=file -bang TermdebugGo call s:StartDebug(<bang>0, <f-args>)
+command -nargs=* -complete=file -bang TermdebugStart call s:StartDebug(<bang>0, <f-args>)
+command -nargs=* -complete=file -bang TermdebugStartTest call s:StartDebugTest(<bang>0, <f-args>)
 
 if !exists('g:termdebugger_go')
   let g:termdebugger_go = 'dlv'
@@ -19,6 +20,11 @@ endfunction
 func s:StartDebug(bang, ...)
   " First argument is the command to debug, second core file or process ID.
   call s:StartDebug_internal({'dlv_args': ['debug'] + a:000, 'bang': a:bang})
+endfunc
+
+func s:StartDebugTest(bang, ...)
+  " First argument is the command to debug, second core file or process ID.
+  call s:StartDebug_internal({'dlv_args': ['test'] + a:000, 'bang': a:bang})
 endfunc
 
 func s:StartDebug_internal(dict)
