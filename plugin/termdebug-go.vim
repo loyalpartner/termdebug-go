@@ -1,5 +1,5 @@
 " TODO: need delete
-if exists(':TermdebugGo2')
+if exists(':TermdebugGo')
   finish
 endif
 
@@ -87,12 +87,9 @@ func s:StartDebug_term(dict)
 
   " dlv debug --log  --log-dest /dev/pts/13 --log-output logpty  ./main.go
   let dlv_cmd = s:GetCommand()
-  let dlv_cmd += dlv_args[0:1]
-   " let dlv_cmd += ['--log', '--log-output', 'rpc']
-  " let dlv_cmd += ['--log-dest', logpty]
-  let dlv_cmd += ['--tty', logpty]
-  
+  let dlv_cmd += dlv_args[0:0]
   let dlv_cmd += len(dlv_args[1:]) == 0 ?  ['./main.go'] : dlv_args[1:]
+  let dlv_cmd += ['--tty', logpty]
 
   " echom join(dlv_cmd, " ")
 
